@@ -50,7 +50,7 @@ export async function POST() {
     }
 
     const newRecommendation = await generateSideHustleRecommendation(
-      preferences,
+      { ...preferences, name: session.user?.name || undefined },
       previousRecommendations
     )
 

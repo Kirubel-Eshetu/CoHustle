@@ -53,7 +53,7 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:bg-black dark:bg-none flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
@@ -62,7 +62,7 @@ export default function SignInPage() {
             </div>
             <span className="text-xl font-bold text-gray-900">CoHustle</span>
           </div>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
+          <CardTitle className="text-2xl dark:text-white">Welcome back</CardTitle>
           <CardDescription>
             Sign in to your account to continue finding side hustles
           </CardDescription>
@@ -112,7 +112,7 @@ export default function SignInPage() {
               <Separator className="w-full" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+               <span className="bg-background px-2 text-muted-foreground dark:text-gray-300">
                 Or continue with
               </span>
             </div>
@@ -150,9 +150,7 @@ export default function SignInPage() {
                 />
               </div>
             </div>
-            {error && (
-              <p className="text-sm text-red-600">{error}</p>
-            )}
+            {error && (<p className="text-sm text-red-400">{error}</p>)}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>

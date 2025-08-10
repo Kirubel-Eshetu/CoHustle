@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/components/auth-provider"
+import ThemeToggle from "@/components/theme-toggle"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -16,9 +17,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
         <AuthProvider>
+          <div className="fixed top-3 right-3 z-50">
+            <ThemeToggle />
+          </div>
           {children}
         </AuthProvider>
       </body>

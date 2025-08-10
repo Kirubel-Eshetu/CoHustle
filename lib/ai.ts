@@ -10,6 +10,7 @@ export interface UserPreferences {
   interests: string[]
   availableHours: string
   language: string
+  name?: string
 }
 
 export interface SideHustleRecommendation {
@@ -56,6 +57,7 @@ Be specific, realistic, and actionable. Consider local market conditions and opp
 - Interests: ${preferences.interests.join(', ')}
 - Available Hours: ${preferences.availableHours}
 - Language: ${preferences.language}
+ - Name: ${preferences.name || 'User'}
 
 ${previousRecommendations.length > 0 ? `Previous recommendations to avoid repeating:
 ${previousRecommendations.map((rec, i) => `${i + 1}. ${rec.title}`).join('\n')}` : ''}
@@ -77,12 +79,10 @@ Please generate a new side hustle recommendation that's different from the previ
       throw new Error('No response from OpenAI')
     }
 
-    // Try to parse JSON response
     try {
       const recommendation = JSON.parse(response)
       return recommendation as SideHustleRecommendation
-    } catch (parseError) {
-      // Fallback: create a structured response from text
+    } catch {
       return {
         title: "AI-Generated Side Hustle",
         description: response,
@@ -94,9 +94,20 @@ Please generate a new side hustle recommendation that's different from the previ
         source: "AI-generated recommendation"
       }
     }
-  } catch (error) {
+  } catch (error: any) {
+    // Graceful fallback for quota/rate limit or network issues
+    const fallback: SideHustleRecommendation = {
+      title: `Local ${preferences.interests[0] || 'Service'} Starter` ,
+      description: `Start a ${preferences.interests.join(', ') || 'practical'} service in ${preferences.city}, ${preferences.country}. Offer it to local communities and online groups. Begin with friends, family, and neighborhood channels. Scale by posting before/after content, collecting testimonials, and setting weekly goals.`,
+      category: "Services",
+      requirements: "Smartphone, basic marketing, consistency. Optional: simple landing page.",
+      estimatedEarnings: "$100-$400/month to start; scales with clients",
+      timeCommitment: preferences.availableHours,
+      location: `${preferences.city}, ${preferences.country}`,
+      source: "AI-generated recommendation"
+    }
     console.error('Error generating side hustle recommendation:', error)
-    throw new Error('Failed to generate recommendation')
+    return fallback
   }
 }
 

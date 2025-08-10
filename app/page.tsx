@@ -15,19 +15,22 @@ import {
   Zap
 } from "lucide-react"
 
+import ThemeToggle from "@/components/theme-toggle"
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:bg-black dark:bg-none">
       {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50 dark:bg-black/80 dark:border-gray-800">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">CoHustle</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">CoHustle</span>
           </div>
           <div className="flex items-center space-x-4">
+            <ThemeToggle />
             <Link href="/auth/signin">
               <Button variant="ghost">Sign In</Button>
             </Link>
@@ -45,13 +48,13 @@ export default function HomePage() {
             <Globe className="w-4 h-4 mr-2" />
             Available Worldwide
           </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
             Find Your Perfect
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {" "}Side Hustle
             </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
             Discover personalized side hustle opportunities that match your skills, 
             location, and schedule. Powered by AI to find the best opportunities for you.
           </p>
@@ -74,7 +77,7 @@ export default function HomePage() {
       {/* Features Section */}
       <section id="how-it-works" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             How CoHustle Works
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -88,7 +91,7 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Search className="w-6 h-6 text-blue-600" />
               </div>
-              <CardTitle>Tell Us About You</CardTitle>
+              <CardTitle className="dark:text-white">Tell Us About You</CardTitle>
               <CardDescription>
                 Share your location, interests, and available time. We'll use this to find the best opportunities for you.
               </CardDescription>
@@ -100,7 +103,7 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Zap className="w-6 h-6 text-purple-600" />
               </div>
-              <CardTitle>AI Finds Opportunities</CardTitle>
+              <CardTitle className="dark:text-white">AI Finds Opportunities</CardTitle>
               <CardDescription>
                 Our AI searches through thousands of opportunities to find the perfect match for your profile.
               </CardDescription>
@@ -112,7 +115,7 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="w-6 h-6 text-green-600" />
               </div>
-              <CardTitle>Start Earning</CardTitle>
+              <CardTitle className="dark:text-white">Start Earning</CardTitle>
               <CardDescription>
                 Get detailed information about each opportunity and start your side hustle journey today.
               </CardDescription>
@@ -125,7 +128,7 @@ export default function HomePage() {
       <section className="container mx-auto px-4 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Why Choose CoHustle?
             </h2>
             <div className="space-y-6">
@@ -134,8 +137,8 @@ export default function HomePage() {
                   <MapPin className="w-4 h-4 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Location-Based Matching</h3>
-                  <p className="text-gray-600">Find opportunities that work in your specific country and city.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Location-Based Matching</h3>
+                  <p className="text-gray-600 dark:text-gray-300">Find opportunities that work in your specific country and city.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -143,8 +146,8 @@ export default function HomePage() {
                   <Clock className="w-4 h-4 text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Flexible Time Commitment</h3>
-                  <p className="text-gray-600">Match opportunities to your available hours and schedule.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Flexible Time Commitment</h3>
+                  <p className="text-gray-600 dark:text-gray-300">Match opportunities to your available hours and schedule.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -152,8 +155,8 @@ export default function HomePage() {
                   <Users className="w-4 h-4 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Community Insights</h3>
-                  <p className="text-gray-600">See what side hustles are working for others in your area.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Community Insights</h3>
+                  <p className="text-gray-600 dark:text-gray-300">See what side hustles are working for others in your area.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -161,8 +164,8 @@ export default function HomePage() {
                   <Shield className="w-4 h-4 text-orange-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Verified Opportunities</h3>
-                  <p className="text-gray-600">All opportunities are vetted and verified for legitimacy.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Verified Opportunities</h3>
+                  <p className="text-gray-600 dark:text-gray-300">All opportunities are vetted and verified for legitimacy.</p>
                 </div>
               </div>
             </div>
@@ -185,21 +188,19 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-white">
+      <footer className="border-t bg-white dark:bg-black dark:border-gray-800">
         <div className="container mx-auto px-4 py-12">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">CoHustle</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">CoHustle</span>
             </div>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
               Find your perfect side hustle with AI-powered recommendations.
             </p>
-            <p className="text-sm text-gray-500">
-              © 2024 CoHustle. Built for the Ethiopian Cursor Community Hackathon.
-            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">© 2025 CoHustle. Built by Kirubel Eshetu</p>
           </div>
         </div>
       </footer>

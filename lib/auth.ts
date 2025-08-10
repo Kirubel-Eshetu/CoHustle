@@ -14,8 +14,8 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientId: (process.env.GITHUB_CLIENT_ID || process.env.GITHUB_ID)!,
+      clientSecret: (process.env.GITHUB_CLIENT_SECRET || process.env.GITHUB_SECRET)!,
     }),
     CredentialsProvider({
       name: "credentials",
@@ -28,22 +28,15 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email
-          }
-        })
+        const user = await prisma.user.findUnique({ where: { email: credentials.email } })
 
         if (!user) {
           return null
         }
 
-        // For now, we'll use a simple password check
-        // In production, you'd want to hash passwords properly
-        if (credentials.password === "password") {
-          return user
+        if (user.password && bcrypt.compareSync(credentials.password, user.password)) {
+          return user as any
         }
-
         return null
       }
     })
