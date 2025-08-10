@@ -64,7 +64,7 @@ Please generate a new side hustle recommendation that's different from the previ
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
@@ -122,7 +122,7 @@ Focus on real, actionable opportunities available in the specified location.`
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: `Search for side hustles related to: "${query}" in ${location}` }

@@ -1,0 +1,38 @@
+node_modules/
+
+# Next.js build output
+.next/
+out/
+dist/
+
+# Env files (keep secrets out of git)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Prisma (SQLite dev DB)
+prisma/dev.db
+prisma/dev.db-journal
+
+# Coverage / cache
+coverage/
+.eslintcache
+.cache/
+
+# Hosting / tooling
+.vercel/
+.turbo/
