@@ -1,6 +1,6 @@
 # CoHustle - AI-Powered Side Hustle Discovery Platform
 
-CoHustle is a modern web application that helps users find personalized side hustle opportunities using AI. Built for the Ethiopian Cursor Community Live Hackathon, this platform matches users with side hustles based on their location, interests, and available time.
+CoHustle is a modern web application that helps users find personalized side hustle opportunities using AI. This platform matches users with side hustles based on their location, interests, and available time.
 
 ## 🚀 Features
 
