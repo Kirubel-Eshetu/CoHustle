@@ -27,31 +27,22 @@ export default function ThemeToggle() {
     applyTheme(next)
   }
 
-  return (
-    <div className="flex items-center gap-2">
-      <button
-        aria-label="Light mode"
-        onClick={() => setMode("light")}
-        className={`h-9 w-9 inline-flex items-center justify-center rounded-md border transition-colors ${
-          theme === "light"
-            ? "bg-white text-yellow-600 border-yellow-300 dark:bg-gray-900 dark:text-yellow-400"
-            : "bg-white text-gray-600 border-gray-200 hover:text-yellow-600 dark:bg-gray-900 dark:text-gray-300 dark:hover:text-yellow-400"
-        }`}
-      >
-        <Sun className="h-4 w-4" />
-      </button>
-      <button
-        aria-label="Dark mode"
-        onClick={() => setMode("dark")}
-        className={`h-9 w-9 inline-flex items-center justify-center rounded-md border transition-colors ${
-          theme === "dark"
-            ? "bg-black text-white border-gray-700"
-            : "bg-white text-gray-600 border-gray-200 hover:text-white hover:bg-black"
-        }`}
-      >
-        <Moon className="h-4 w-4" />
-      </button>
-    </div>
+  return theme === "dark" ? (
+    <button
+      aria-label="Switch to light mode"
+      onClick={() => setMode("light")}
+      className="h-9 w-9 inline-flex items-center justify-center rounded-md border bg-black text-white border-gray-700 hover:opacity-90"
+    >
+      <Sun className="h-4 w-4" />
+    </button>
+  ) : (
+    <button
+      aria-label="Switch to dark mode"
+      onClick={() => setMode("dark")}
+      className="h-9 w-9 inline-flex items-center justify-center rounded-md border bg-white text-gray-700 border-gray-200 hover:bg-gray-100"
+    >
+      <Moon className="h-4 w-4" />
+    </button>
   )
 }
 

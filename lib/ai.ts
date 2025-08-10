@@ -2,6 +2,7 @@ import OpenAI from 'openai'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_BASE_URL,
 })
 
 export interface UserPreferences {
@@ -64,50 +65,60 @@ ${previousRecommendations.map((rec, i) => `${i + 1}. ${rec.title}`).join('\n')}`
 
 Please generate a new side hustle recommendation that's different from the previous ones.`
 
-  try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-      ],
-      temperature: 0.7,
-    })
+  const primaryModel = process.env.OPENAI_MODEL || "llama-3.1-70b-versatile"
+  const secondaryModel = "llama-3.1-8b-instant"
 
-    const response = completion.choices[0]?.message?.content
-    if (!response) {
-      throw new Error('No response from OpenAI')
-    }
-
+  async function tryModel(model: string): Promise<SideHustleRecommendation | null> {
     try {
-      const recommendation = JSON.parse(response)
-      return recommendation as SideHustleRecommendation
-    } catch {
-      return {
-        title: "AI-Generated Side Hustle",
-        description: response,
-        category: "General",
-        requirements: "Varies based on opportunity",
-        estimatedEarnings: "Varies by location and effort",
-        timeCommitment: preferences.availableHours,
-        location: preferences.city + ", " + preferences.country,
-        source: "AI-generated recommendation"
+      const completion = await openai.chat.completions.create({
+        model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.7,
+      })
+
+      const response = completion.choices[0]?.message?.content
+      if (!response) return null
+
+      try {
+        const recommendation = JSON.parse(response)
+        return recommendation as SideHustleRecommendation
+      } catch {
+        return {
+          title: "AI-Generated Side Hustle",
+          description: response,
+          category: "General",
+          requirements: "Varies based on opportunity",
+          estimatedEarnings: "Varies by location and effort",
+          timeCommitment: preferences.availableHours,
+          location: preferences.city + ", " + preferences.country,
+          source: `Model: ${model}`,
+        }
       }
+    } catch (err) {
+      console.error(`Model call failed (${model}):`, err)
+      return null
     }
-  } catch (error: any) {
-    // Graceful fallback for quota/rate limit or network issues
-    const fallback: SideHustleRecommendation = {
-      title: `Local ${preferences.interests[0] || 'Service'} Starter` ,
-      description: `Start a ${preferences.interests.join(', ') || 'practical'} service in ${preferences.city}, ${preferences.country}. Offer it to local communities and online groups. Begin with friends, family, and neighborhood channels. Scale by posting before/after content, collecting testimonials, and setting weekly goals.`,
-      category: "Services",
-      requirements: "Smartphone, basic marketing, consistency. Optional: simple landing page.",
-      estimatedEarnings: "$100-$400/month to start; scales with clients",
-      timeCommitment: preferences.availableHours,
-      location: `${preferences.city}, ${preferences.country}`,
-      source: "AI-generated recommendation"
-    }
-    console.error('Error generating side hustle recommendation:', error)
-    return fallback
+  }
+
+  const first = await tryModel(primaryModel)
+  if (first) return first
+  const second = await tryModel(secondaryModel)
+  if (second) return second
+
+  // Final graceful fallback for network/quota issues on both models
+  const interest = preferences.interests[1] || preferences.interests[0] || 'Service'
+  return {
+    title: `Local ${interest} Starter`,
+    description: `Start a ${interest} offering in ${preferences.city}, ${preferences.country}. Package 3 starter offers, post in local groups, and iterate weekly based on demand.`,
+    category: "Services",
+    requirements: "Smartphone, basic marketing, consistency.",
+    estimatedEarnings: "$100-$400/month to start; scales with clients",
+    timeCommitment: preferences.availableHours,
+    location: `${preferences.city}, ${preferences.country}`,
+    source: "Offline fallback",
   }
 }
 
@@ -133,7 +144,7 @@ Focus on real, actionable opportunities available in the specified location.`
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: process.env.OPENAI_MODEL || "llama-3.1-70b-versatile",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: `Search for side hustles related to: "${query}" in ${location}` }

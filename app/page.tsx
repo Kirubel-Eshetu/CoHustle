@@ -15,7 +15,6 @@ import {
   Zap
 } from "lucide-react"
 
-import ThemeToggle from "@/components/theme-toggle"
 
 export default function HomePage() {
   return (
@@ -30,7 +29,6 @@ export default function HomePage() {
             <span className="text-xl font-bold text-gray-900 dark:text-white">CoHustle</span>
           </div>
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
             <Link href="/auth/signin">
               <Button variant="ghost">Sign In</Button>
             </Link>

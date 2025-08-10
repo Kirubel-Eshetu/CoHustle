@@ -19,6 +19,7 @@ import {
   TrendingUp
 } from "lucide-react"
 import PreferenceSetup from "@/components/preference-setup"
+import PreferencesEditor from "@/components/preferences-editor"
 import SideHustleCard from "@/components/side-hustle-card"
 import { SideHustleRecommendation } from "@/lib/ai"
 
@@ -26,6 +27,7 @@ export default function DashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [preferences, setPreferences] = useState<any>(null)
+  const [editing, setEditing] = useState(false)
   const [recommendations, setRecommendations] = useState<SideHustleRecommendation[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [activeTab, setActiveTab] = useState("recommendations")
@@ -125,13 +127,40 @@ export default function DashboardPage() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
-        <div className="mb-8">
+            <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome back, {session.user?.name?.split(" ")[0]}!
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
             Here are your personalized side hustle recommendations based on your preferences.
           </p>
+              <div className="mt-4">
+                {editing ? (
+                  <PreferencesEditor
+                    initial={{
+                      country: preferences.country,
+                      city: preferences.city,
+                      interests: Array.isArray(preferences.interests) ? preferences.interests : [],
+                      availableHours: preferences.availableHours,
+                      language: preferences.language || "en",
+                    }}
+                    onCancel={() => setEditing(false)}
+                    onSaved={() => {
+                      setEditing(false)
+                      fetchPreferences()
+                    }}
+                  />
+                ) : (
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      <span className="font-semibold">Location:</span> {preferences.city}, {preferences.country} · {" "}
+                      <span className="font-semibold">Interests:</span> {Array.isArray(preferences.interests) ? preferences.interests.join(", ") : ""} · {" "}
+                      <span className="font-semibold">Hours:</span> {preferences.availableHours}
+                    </div>
+                    <Button variant="outline" onClick={() => setEditing(true)}>Edit preferences</Button>
+                  </div>
+                )}
+              </div>
         </div>
 
         {/* Stats Cards */}
